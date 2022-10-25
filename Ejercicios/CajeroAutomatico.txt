@@ -1,0 +1,114 @@
+package cajeroautomatico;
+
+import java.util.Scanner;
+import javax.swing.JOptionPane;
+
+public class CajeroAutomatico {
+
+    public static void main(String[] args) {
+        Scanner teclado = new Scanner(System.in);
+        int opcion;
+        String contraseña;
+        String usuario;
+        int saldo_inicial = 20000;
+        int intentos = 0;
+        int continuar = 0;
+        boolean salir = false;
+        int saldo_actual;
+        int dato;
+        String operaciones = " ";
+        
+       
+
+        do {
+            usuario = JOptionPane.showInputDialog(null, "Indique su usuario: ", "INICIO", JOptionPane.QUESTION_MESSAGE);
+            contraseña = JOptionPane.showInputDialog(null, "Digite su contraseña: ", "INICIO", JOptionPane.QUESTION_MESSAGE);
+            if (usuario.equals("0")) {
+                JOptionPane.showMessageDialog(null, "GRACIAS POR USAR NUESTRO SISTEMA", "", JOptionPane.PLAIN_MESSAGE);
+                break;
+
+            }
+            if (contraseña.equals("holamundo") && usuario.equals("UTN")) {
+                while (!salir) {
+                    JOptionPane.showMessageDialog(null, "BIENVENIDO AL CAJERO AUTOMÁTICO UTN");
+
+                    String[] arreglo = {"Depositar", "Retirar Dinero", "Consultar Saldo", "Acciones realizadas", "Salir"};
+
+                    int opcionUsuario = JOptionPane.showOptionDialog(null, "Por favor seleccione la opción que desea realizar", "Cajero Automático UTN", 0, JOptionPane.DEFAULT_OPTION, null, arreglo, arreglo[0]);
+
+                    switch (opcionUsuario) {
+                        case 0:
+
+                            int deposito = Integer.parseInt(JOptionPane.showInputDialog(null, "Digite la cantidad que desea depositar: "));
+                            dato = deposito;
+                            if (deposito >= 1) {
+
+                            } else {
+                                JOptionPane.showMessageDialog(null, "El monto ingresado es incorrecto", "ERROR", JOptionPane.ERROR_MESSAGE);
+                                break;
+                            }
+                            saldo_actual = saldo_inicial + deposito;
+                            JOptionPane.showMessageDialog(null, "SU DINERO FUE DEPOSITADO");
+                            JOptionPane.showMessageDialog(null, "Su saldo actual es: " + saldo_actual);
+                            JOptionPane.showMessageDialog(null, "Depositaste: " + deposito);
+                            saldo_inicial = saldo_actual;
+                            operaciones = operaciones + "Deposito de dinero $ "+ deposito + "\n";
+
+                            break;
+
+                        case 1:
+
+                            int retiro = Integer.parseInt(JOptionPane.showInputDialog(null, "Por favor indique la cantidad que desea retirar : "));
+
+                            if (retiro > saldo_inicial) {
+                                JOptionPane.showMessageDialog(null, "Saldo insuficiente. No puede retirar el saldo indicado, supera el saldo disponible en su cuenta.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                              
+                                break;
+                            } else {
+
+                            }
+                            saldo_actual = saldo_inicial - retiro;
+                            saldo_inicial = saldo_actual;
+                            JOptionPane.showMessageDialog(null, "Retiraste: " + retiro);
+                            JOptionPane.showMessageDialog(null, "Su saldo actual es: " + saldo_inicial);
+                            operaciones = operaciones + "Retiro $ "+ retiro + "\n";
+
+                                                
+                            break;
+                        case 2:
+                            JOptionPane.showMessageDialog(null, "Su saldo actual es: " + saldo_inicial);
+                            break;
+
+                        case 3:
+                            JOptionPane.showMessageDialog(null,operaciones); 
+                            
+                       break;
+                                         
+                        
+                        case 4:
+                            salir = true;
+                            continuar = 0;
+                            JOptionPane.showMessageDialog(null, "Que tenga un buen día. Gracias por formar parte de UTN", "", JOptionPane.PLAIN_MESSAGE);
+                            break;
+
+                        default:
+                            JOptionPane.showMessageDialog(null, "La opción seleccionada no se encuentra disponible", "Advertencia", JOptionPane.ERROR_MESSAGE);
+
+                            break;
+
+                    }
+
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "La contraseña es incorrecta", "Cajero Automático UTN", JOptionPane.WARNING_MESSAGE);
+                intentos++;
+            }
+            if (intentos == 3) {
+                JOptionPane.showMessageDialog(null, "Usted ingresó mal la contraseña más de tres veces. Por favor verifique su contraseña. Muchas gracias");
+
+                break;
+            }
+
+        } while (continuar == 0);
+    }
+}
